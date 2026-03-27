@@ -1,0 +1,10 @@
+description = "Start requirements-driven-development for the current task."
+prompt = """
+Use the `requirements-driven-development` skill for this task.
+
+If the user provided extra text after `/rdd`, treat it as the initial requirement context:
+{{args}}
+
+Follow the requirements-driven-development workflow. Do not jump straight to planning or coding.
+Start by identifying the requirement source, capturing it, and writing the DD for review.
+"""

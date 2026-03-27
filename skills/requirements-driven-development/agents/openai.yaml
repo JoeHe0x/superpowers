@@ -1,0 +1,11 @@
+interface:
+  display_name: "Requirements-Driven Development"
+  short_description: "Jira/Confluence features to reviewed DD and traced tests"
+  default_prompt: "Use $requirements-driven-development or $rdd for this Jira-driven Spring Boot or requirement-doc-backed feature before planning or coding."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "atlassian"
+      description: "Jira and Confluence access when available"
+policy:
+  allow_implicit_invocation: true
