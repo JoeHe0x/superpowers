@@ -47,6 +47,8 @@ Do not use this skill for greenfield API design. Use it to document current beha
 - Include evidence for every important claim: class name, method name, and file path.
 - Capture cross-cutting concerns once, then reference them from endpoint sections: auth, validation, transactions, exception handling, idempotency, async processing, events, and caching.
 - Prefer concise tables for API inventory and short ordered lists for business flow.
+- Every endpoint detail section must include a Mermaid `sequenceDiagram` that shows the main request path across controller, service, repository, and important downstream systems.
+- Keep sequence diagrams evidence-backed. Use only participants and branches that can be traced from code, and mark inferred steps explicitly when needed.
 - If the service has more than 20 endpoints or more than 5 controllers, split the output by controller or domain.
 - If runtime verification is possible, include sample `curl` or `httpie` usage or reference existing integration tests. If not, state that verification was static only.
 
@@ -57,6 +59,7 @@ Every endpoint section must answer:
 - What route is exposed?
 - What request fields and validation rules matter?
 - What service method handles it?
+- What does the endpoint's Mermaid sequence diagram show from entry to side effects and response?
 - What business rules, branches, and state changes occur?
 - What persistence, MQ, cache, or third-party calls happen?
 - What success and failure responses are possible?

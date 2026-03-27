@@ -19,6 +19,7 @@ Use this checklist before finalizing the generated document.
 ## Business Flow Tracing
 
 - Resolve controller method to service method.
+- Capture the main execution path as a Mermaid `sequenceDiagram` for each documented endpoint or tightly related endpoint group.
 - Trace branch conditions, permission checks, feature flags, and fallback logic.
 - Identify transaction boundaries such as `@Transactional` or explicit transaction helpers.
 - Record persistence changes, repository queries, optimistic locking, and soft-delete behavior.
@@ -43,6 +44,6 @@ Use this checklist before finalizing the generated document.
 ## Output Quality Gate
 
 - Every endpoint in the inventory has a matching detail section.
-- Every detail section includes route, request, response, business flow, side effects, and evidence.
+- Every detail section includes route, request, response, business flow, Mermaid sequence diagram, side effects, and evidence.
 - Cross-cutting behavior is documented once and referenced consistently.
 - The final document states whether verification was static only or included runtime execution.

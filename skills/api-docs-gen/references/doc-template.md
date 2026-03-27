@@ -67,6 +67,28 @@ Repeat this section for each endpoint or group of tightly related endpoints.
 6. Success outcome:
 7. Failure paths:
 
+#### Mermaid Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Controller
+    participant Service
+    participant Repository
+    participant Downstream as Downstream System
+
+    Client->>Controller: HTTP request
+    Controller->>Service: Invoke application service
+    Service->>Repository: Query or persist data
+    Repository-->>Service: Data result
+    Service->>Downstream: External side effect when applicable
+    Downstream-->>Service: Result or acknowledgement
+    Service-->>Controller: Response payload
+    Controller-->>Client: HTTP response
+```
+
+Replace placeholder participants with concrete code-backed symbols. Remove repository or downstream participants when they do not exist, and use `alt` or `opt` blocks for important branches or conditional side effects.
+
 #### Evidence
 
 - Controller:

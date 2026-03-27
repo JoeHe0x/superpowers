@@ -1,6 +1,6 @@
 ---
 name: requirements-driven-development
-description: Use when the user explicitly asks for requirements-driven-development, or when a Jira-driven, Confluence-backed, Spring Boot, or requirement-doc-backed feature or bugfix must be analyzed and reviewed before planning or coding.
+description: Use when the user explicitly asks for requirements-driven-development, or when a Jira-driven, Confluence-backed, Spring Boot, or requirement-doc-backed feature or bugfix needs traceable requirement capture before implementation.
 ---
 
 # Requirements-Driven Development

@@ -101,6 +101,8 @@ flowchart TD
 - 是否落库、查库、调用 MQ、HTTP client、RPC client 或文件存储
 - 是否受 feature flag、profile 或配置项影响
 
+每个接口在整理文字业务流之外，还应补一段 Mermaid `sequenceDiagram`，把请求从入口 Controller 经过 Service、Repository，到外部系统、副作用以及最终响应的主路径画出来。图中只能出现能从代码中追踪到的参与方；如果某一步是根据上下文推断出来的，需要在图附近或正文中明确标注“推断”。
+
 如果可用，优先用 `jdtls-lsp` 做定义跳转、引用查找和调用链分析；语言服务不可用时，再退回到针对性代码搜索。
 
 ## 工具增强
@@ -143,20 +145,21 @@ flowchart TD
 
 ### 5. 用模板写文档
 
-建议基于 [`references/doc-template.md`](/mnt/d/Code/rdd/skills/api-docs-gen/references/doc-template.md) 落盘，至少覆盖：
+建议基于 [`references/doc-template.md`](./references/doc-template.md) 落盘，至少覆盖：
 
 - 分析范围与证据来源
 - 系统摘要
 - API inventory
 - 横切行为
 - 每个 endpoint 的详细业务流
+- 每个 endpoint 的 Mermaid 时序图
 - 数据模型与枚举
 - 未确认逻辑
 - 验证方式与残留空白
 
 ### 6. 用清单做收尾检查
 
-交付前，使用 [`references/springboot-analysis-checklist.md`](/mnt/d/Code/rdd/skills/api-docs-gen/references/springboot-analysis-checklist.md) 做覆盖复核，确保每个接口都同时具备：
+交付前，使用 [`references/springboot-analysis-checklist.md`](./references/springboot-analysis-checklist.md) 做覆盖复核，确保每个接口都同时具备：
 
 - 路由与请求/响应信息
 - 业务链路说明
@@ -169,6 +172,7 @@ flowchart TD
 - 暴露了什么路由和 HTTP 方法？
 - 请求字段、校验规则和序列化约束是什么？
 - 入口 controller 和实际处理 service 分别是谁？
+- Mermaid 时序图是否清楚展示了主链路、关键分支和主要副作用？
 - 关键业务规则、条件分支和状态变化是什么？
 - 发生了哪些数据库、缓存、消息队列或第三方调用？
 - 成功返回和失败返回分别有哪些形态？
@@ -196,6 +200,7 @@ flowchart TD
 - 用历史提交或口头说明替代当前代码事实。
 - 把推测性业务意图写成确定事实。
 - 漏掉鉴权、事务边界、副作用或异常处理。
+- 只有文字描述，没有为接口补 Mermaid 时序图，或图与正文/代码链路不一致。
 - API inventory 中的接口数量与明细章节对不上。
 
 ## 协作与验证建议
@@ -221,8 +226,8 @@ flowchart TD
 
 ## 参考文件
 
-- 模板：[`references/doc-template.md`](/mnt/d/Code/rdd/skills/api-docs-gen/references/doc-template.md)
-- 复核清单：[`references/springboot-analysis-checklist.md`](/mnt/d/Code/rdd/skills/api-docs-gen/references/springboot-analysis-checklist.md)
+- 模板：[`references/doc-template.md`](./references/doc-template.md)
+- 复核清单：[`references/springboot-analysis-checklist.md`](./references/springboot-analysis-checklist.md)
 
 ## 文档价值
 

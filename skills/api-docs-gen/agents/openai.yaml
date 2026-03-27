@@ -1,6 +1,6 @@
 interface:
   display_name: "API Docs Gen"
   short_description: "Reverse engineer Spring Boot API/business docs"
-  default_prompt: "Use $api-docs-gen to inspect a Spring Boot service and produce business logic documentation plus API docs for its existing endpoints."
+  default_prompt: "Use $api-docs-gen to inspect a Spring Boot service and produce business logic documentation plus API docs for its existing endpoints, including Mermaid sequence diagrams for each documented endpoint."
 policy:
   allow_implicit_invocation: true
