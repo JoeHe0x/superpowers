@@ -32,8 +32,13 @@ Use this checklist when the target project is a Java Spring Boot Maven service.
 mvn test
 mvn -DskipTests compile
 mvn spring-boot:run
-# Replace the port, context path, and endpoint with the values confirmed from config and startup logs.
-curl -i "http://localhost:8080<server.servlet.context-path>/actuator/info"
+
+# Confirm the effective port and context path from startup logs or application-*.* config,
+# then substitute into the curl command. Example with context path /api:
+#   curl -i "http://localhost:8080/api/actuator/info"
+# Example with no context path:
+#   curl -i "http://localhost:8080/actuator/info"
+curl -i "http://localhost:PORT/CONTEXT_PATH/actuator/info"
 ```
 
 Replace commands with module-specific or repo-specific variants when needed.

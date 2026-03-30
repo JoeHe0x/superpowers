@@ -1,6 +1,6 @@
 ---
 name: requirements-driven-development
-description: Use when the user explicitly asks for requirements-driven-development, or when a Jira-driven, Confluence-backed, Spring Boot, or requirement-doc-backed feature or bugfix needs traceable requirement capture before implementation.
+description: Use when feature work, a bugfix, or a compliance-sensitive change needs traceable requirement capture before planning or coding — regardless of stack. Applies to Jira-driven, Confluence-backed, requirement-doc-backed, or any task where requirements are ambiguous, cross-service, or must be auditable.
 ---
 
 # Requirements-Driven Development
@@ -159,7 +159,7 @@ Once the DD is approved:
 - derive unit and integration test cases directly from the DD acceptance criteria
 - write or scaffold failing tests before implementation when the task moves into coding
 
-**REQUIRED SUB-SKILL:** Use `superpowers:writing-plans` for the implementation plan.
+**REQUIRED SUB-SKILL:** Use `superpowers:writing-plans` for the implementation plan. If that skill is not available, create the plan inline following the same task / file-path / command / expected-outcome structure.
 
 When invoking plan writing, set these expectations:
 - save the plan under `docs/plans/` unless the repo already standardizes another path
@@ -181,9 +181,9 @@ After plan and tests are approved:
 - otherwise use a descriptive branch name tied to the DD topic
 
 **REQUIRED SUB-SKILLS:**
-- `superpowers:using-git-worktrees`
-- `superpowers:test-driven-development`
-- `superpowers:subagent-driven-development` or `superpowers:executing-plans`
+- `superpowers:using-git-worktrees` — if not available, work directly on a named branch
+- `superpowers:test-driven-development` — if not available, write failing tests manually before each implementation task
+- `superpowers:subagent-driven-development` when the plan has parallel or independent tasks; `superpowers:executing-plans` when tasks are sequential or tightly coupled — if neither is available, execute the plan step by step inline
 
 Implementation rules:
 - keep commits scoped to plan tasks

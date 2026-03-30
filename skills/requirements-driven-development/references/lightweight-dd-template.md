@@ -15,7 +15,8 @@ Keep traceability. Reduce prose.
 - Source snapshot retrieved at:
 - Source status / revision:
 - Repository area:
-- Execution harness:
+- Execution harness: local shell | devcontainer | CI | other
+  <!-- Where verification commands actually run. See dd-template.md for options. -->
 - Status: Draft | In Review | Approved | Implemented
 
 ## Requirement Snapshot

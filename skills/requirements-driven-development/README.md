@@ -170,8 +170,8 @@ sequenceDiagram
     participant S as 需求源
     participant A as RDD 技能
     participant D as DD/计划文档
-    participant T as 计划与测试阶段
-    participant I as 实现与验证阶段
+    participant T as RDD 技能（计划/测试）
+    participant I as RDD 技能（实现/验证）
 
     U->>A: 提交需求、工单号或需求文档
     A->>S: 拉取 Jira/Confluence/本地需求并记录快照

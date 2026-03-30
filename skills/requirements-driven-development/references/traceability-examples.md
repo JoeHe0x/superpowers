@@ -51,6 +51,34 @@ Use these patterns to map requirements to tests and changed files in the DD.
 | No second downstream call is made | Unit test asserting downstream dependency invoked once | service unit test, dependency stub |
 ```
 
+## Example 4: Frontend Form Validation
+
+```markdown
+## Acceptance Criteria
+- [ ] Submit button is disabled until all required fields are non-empty
+- [ ] Inline error message appears beneath each invalid field on blur
+
+## Traceability
+| Requirement / Criterion | Planned tests | Expected files / modules |
+|---|---|---|
+| Submit disabled until required fields filled | Component test asserting button `disabled` state with empty vs. filled fixture | `SubmitButton`, `FormContainer` |
+| Inline error on blur | Component test simulating blur on empty field, asserting error message rendered | field components, validation hook/util |
+```
+
+## Example 5: Configuration or Feature-Flag Change
+
+```markdown
+## Acceptance Criteria
+- [ ] Feature X is active only when `FEATURE_X_ENABLED=true`
+- [ ] Default behavior is preserved when the flag is absent or false
+
+## Traceability
+| Requirement / Criterion | Planned tests | Expected files / modules |
+|---|---|---|
+| Feature X active when flag is true | Unit test with env var set to `true` | config loader, feature guard |
+| Default behavior preserved when flag absent | Unit test with env var unset; existing behavior assertions unchanged | config loader, affected service |
+```
+
 ## Anti-Patterns
 
 - "Add tests" with no criterion mapping

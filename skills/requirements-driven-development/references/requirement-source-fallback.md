@@ -49,6 +49,13 @@ Add a short provenance block:
 - Mark all assumptions as pending review
 - Require human approval before planning
 
+### Only legacy code, no documents or tickets
+- Use existing code behavior as current-state evidence only, never as the requirement source
+- Explicitly state in the DD: "No formal requirement source available; acceptance criteria are pending user confirmation"
+- Normalize whatever the user described verbally into draft acceptance criteria
+- Mark all draft criteria as `[PENDING REVIEW]` in the DD
+- Do not move to planning until the user explicitly confirms or corrects those criteria
+
 ### Source conflict
 - Prefer the most recent authoritative business source
 - Quote the conflict briefly in the DD

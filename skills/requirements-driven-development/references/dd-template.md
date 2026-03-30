@@ -15,6 +15,11 @@ Use this template for `docs/dd/<jira-key-or-topic>.md`.
 - Source status / revision:
 - Repository area:
 - Execution harness: local shell | devcontainer | CI | other
+  <!-- Execution harness = where verification commands actually run.
+       local shell: developer machine with dependencies installed locally.
+       devcontainer: VS Code / GitHub Codespaces container defined in .devcontainer/.
+       CI: verification only possible in the pipeline (e.g. missing secrets or infra locally).
+       other: describe the environment (e.g. remote SSH host, Kubernetes exec). -->
 - Status: Draft | In Review | Approved | Implemented
 
 ## Requirement Snapshot
