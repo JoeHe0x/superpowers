@@ -17,7 +17,7 @@ Use the highest-confidence source available:
 - Record the fallback source used
 - Record retrieval time for every source snapshot
 - Distinguish copied requirements from inferred requirements
-- Do not invent acceptance criteria
+- Do not invent formal acceptance criteria when the source does not define them
 - Do not treat existing code as proof of desired behavior unless the source says so
 
 ## What To Capture In The DD
@@ -45,16 +45,16 @@ Add a short provenance block:
 - Mark diagrams, rollout notes, or tables that could not be checked directly
 
 ### Only chat text is available
-- Normalize the request into explicit acceptance criteria
+- Normalize the request into explicit requirements, constraints, or verification notes
 - Mark all assumptions as pending review
-- Require human approval before planning
+- Require human confirmation before planning
 
 ### Only legacy code, no documents or tickets
 - Use existing code behavior as current-state evidence only, never as the requirement source
-- Explicitly state in the DD: "No formal requirement source available; acceptance criteria are pending user confirmation"
-- Normalize whatever the user described verbally into draft acceptance criteria
-- Mark all draft criteria as `[PENDING REVIEW]` in the DD
-- Do not move to planning until the user explicitly confirms or corrects those criteria
+- Explicitly state in the DD: "No formal requirement source available; user-confirmed behavior is still pending"
+- Normalize whatever the user described verbally into draft requirements or verification notes
+- Mark all draft items as `[PENDING REVIEW]` in the DD
+- Do not move to planning until the user explicitly confirms or corrects those items
 
 ### Source conflict
 - Prefer the most recent authoritative business source
