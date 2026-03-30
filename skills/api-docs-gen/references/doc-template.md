@@ -28,21 +28,31 @@ Translate section titles to the user's language when needed. Keep evidence paths
 
 ## 3. API Inventory
 
-| Domain | Method | Path | Summary | Auth | Request | Response | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |  |  |
+| Domain | Controller | Method | Path | Summary | Auth | Request | Response | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |  |
 
 ## 4. Cross-Cutting Behavior
 
 ### 4.1 Authentication and Authorization
 
+<!-- Security filters, @PreAuthorize rules, role/permission requirements, anonymous-access exceptions -->
+
 ### 4.2 Validation and Serialization
+
+<!-- @Valid / @Validated groups, field-level constraints, custom validators, Jackson config, hidden or read-only fields -->
 
 ### 4.3 Transactions, Idempotency, and Concurrency
 
+<!-- @Transactional propagation and isolation, optimistic/pessimistic locking, idempotency keys, retry policies -->
+
 ### 4.4 Exception Handling and Error Mapping
 
+<!-- @ControllerAdvice handlers, exception-to-HTTP-status mappings, error response envelope shape -->
+
 ### 4.5 Feature Flags, Profiles, and Configuration
+
+<!-- @Profile, @ConditionalOnProperty, config properties that switch behavior, environment-specific overrides -->
 
 ## 5. Endpoint Details
 
@@ -56,6 +66,7 @@ Repeat this section for each endpoint or group of tightly related endpoints.
 - Validation rules:
 - Response DTO or payload:
 - Auth and permission checks:
+- Cross-cutting references: (e.g., auth → §4.1, transactions → §4.3, exceptions → §4.4)
 
 #### Business Flow
 
@@ -87,28 +98,35 @@ sequenceDiagram
     Controller-->>Client: HTTP response
 ```
 
-Replace placeholder participants with concrete code-backed symbols. Remove repository or downstream participants when they do not exist, and use `alt` or `opt` blocks for important branches or conditional side effects.
+Replace placeholder participants with concrete code-backed symbols. Remove repository or downstream participants when they do not exist, and use `alt` or `opt` blocks for important branches or conditional side effects. For reactive (WebFlux) endpoints, annotate async subscription points with a note (e.g., `Note over Service: subscribeOn(...)`) rather than drawing separate reactive chain steps.
 
 #### Evidence
 
 - Controller:
 - Service:
 - Downstream symbols:
+- Security or config:
 - Related tests or specs:
 
 ## 6. Data Models and Enumerations
 
-List DTOs, entities, enums, and mapping rules that materially affect API behavior.
+List DTOs, entities, enums, and mapping rules that materially affect API behavior. Omit fields that have no impact on API contracts or business rules.
+
+| Type | Name | Key Fields / Values | Used By | Notes |
+| --- | --- | --- | --- | --- |
+| DTO |  |  |  |  |
+| Entity |  |  |  |  |
+| Enum |  |  |  |  |
 
 ## 7. Open Questions and Uncertain Logic
 
-- Uncertain point:
-- Why it is uncertain:
-- What evidence was missing:
+| # | Uncertain Point | Why It Is Uncertain | Missing Evidence | Business Impact |
+| --- | --- | --- | --- | --- |
+| 1 |  |  |  |  |
 
 ## 8. Verification
 
 - Static checks performed:
 - Runtime verification performed:
-- Sample request examples:
+- Sample requests (curl / httpie — mark each as `[verified]` or `[hypothetical]`):
 - Known documentation gaps:

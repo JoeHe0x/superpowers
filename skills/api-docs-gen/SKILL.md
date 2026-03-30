@@ -9,8 +9,6 @@ description: Use when a Java Spring Boot codebase needs reverse-engineered API d
 
 Use this skill to derive an evidence-backed business logic document from an existing Spring Boot codebase. Treat current code as the primary source of truth, then use tests, OpenAPI annotations, git history, or GitNexus only to clarify intent and fill gaps.
 
-**Announce at start:** "I'm using api-docs-gen to reverse engineer Spring Boot APIs and produce business logic plus API documentation."
-
 ## Outputs
 
 Default to one Markdown document unless the service is large.
@@ -34,11 +32,10 @@ Do not use this skill for greenfield API design. Use it to document current beha
 ## Workflow
 
 1. Scope the surface area. Identify the target module, runtime profile, and package roots. If the request is broad and the service is large, confirm the module or bounded context before documenting everything.
-2. Build the API inventory. Find `@RestController`, `@Controller`, `@RequestMapping`, `@GetMapping`, `@PostMapping`, `@PutMapping`, `@PatchMapping`, and `@DeleteMapping`. Resolve class-level and method-level routes, HTTP verbs, auth annotations, validation, request DTOs, response DTOs, and exception mappings.
-3. Trace the business flow. Prefer `jdtls-lsp` when available for definition lookup, call hierarchy, references, implementations, and type resolution. Fallback to targeted code search if language-server support is unavailable. Trace each endpoint from controller to service to domain rules to repository, external client, event publisher, cache, or transaction boundary.
-4. Corroborate with supporting evidence. Read tests, OpenAPI annotations or generated specs, security config, `@ControllerAdvice`, filters, interceptors, and feature-flag or profile-based config that affects behavior. Use git or GitNexus only to explain why logic exists, never as the primary source of truth over current code.
-5. Write the document using `./references/doc-template.md`. If behavior is uncertain, say so explicitly instead of inventing business rules.
-6. Review coverage with `./references/springboot-analysis-checklist.md` before finalizing. Every documented endpoint must include both API details and business-flow detail.
+2. Build the API inventory. Find `@RestController`, `@Controller`, `@RequestMapping`, `@GetMapping`, `@PostMapping`, `@PutMapping`, `@PatchMapping`, and `@DeleteMapping`. Resolve class-level and method-level routes, HTTP verbs, auth annotations, validation, request DTOs, response DTOs, and exception mappings. For WebFlux services, note reactive return types (`Mono<T>`, `Flux<T>`) and treat them as equivalent entry points.
+3. Trace the business flow and gather evidence in the same pass. Prefer `jdtls-lsp` when available for definition lookup, call hierarchy, references, implementations, and type resolution; fall back to targeted code search only when the language server is unavailable. For each endpoint, trace from controller to service to domain rules to repository, external client, event publisher, cache, and transaction boundary. While tracing, simultaneously read related tests, OpenAPI annotations or generated specs, security config, `@ControllerAdvice`, filters, interceptors, and feature-flag or profile-based config. Use git or GitNexus only to explain why logic exists, never as the primary source of truth over current code.
+4. Write the document using `./references/doc-template.md`. If behavior is uncertain, say so explicitly instead of inventing business rules.
+5. Review coverage with `./references/springboot-analysis-checklist.md` before finalizing. Every documented endpoint must include both API details and business-flow detail.
 
 ## Documentation Rules
 
@@ -75,8 +72,10 @@ Stop and correct course if:
 - git history is treated as truth over current code
 - undocumented assumptions are presented as facts
 - auth, transaction boundaries, or side effects are omitted from the final doc
+- the number of Mermaid sequence diagrams does not match the number of documented endpoints
+- the endpoint count in the API inventory does not match the number of endpoint detail sections
 
 ## Integration
 
-- For Java navigation: `jdtls-lsp`
-- For final verification before handing docs back: `verification-before-completion`
+- For Java navigation: `jdtls-lsp` — use for definition lookup, call hierarchy, find references, go to implementation, and type resolution. Prefer this over text search when available.
+- For final verification: run `./references/springboot-analysis-checklist.md` as a gate before delivering the document. Every endpoint in the inventory must have a matching detail section before the document is considered complete.

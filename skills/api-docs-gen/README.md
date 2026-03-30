@@ -61,15 +61,14 @@ skills/api-docs-gen/
 
 ```mermaid
 flowchart TD
-    A[确定分析范围<br/>模块 服务边界 profile 包路径] --> B[盘点接口入口<br/>Controller Route HTTP Method DTO]
-    B --> C[追踪业务链路<br/>优先 jdtls-lsp<br/>Controller -> Service -> Repository / Client / Event]
-    C --> D[收集交叉关注点<br/>鉴权 校验 事务 异常 配置]
-    D --> E[基于模板编写文档<br/>必要时结合 GitNexus 补充历史意图<br/>API 清单 + Endpoint 业务流 + 证据]
-    E --> F{覆盖是否完整}
-    F -- 否 --> G[回查代码与测试<br/>补齐缺失证据和不确定项]
-    G --> E
-    F -- 是 --> H[用检查清单复核<br/>确认接口清单与明细一致]
-    H --> I[交付最终文档<br/>注明静态分析或运行验证范围]
+    A[确定分析范围<br/>模块 服务边界 profile 包路径] --> B[盘点接口入口<br/>Controller Route HTTP Method DTO<br/>含 WebFlux Mono/Flux 入口]
+    B --> C[追踪业务链路 + 收集旁证（同步进行）<br/>优先 jdtls-lsp<br/>Controller -> Service -> Repository / Client / Event<br/>同步读取测试 安全配置 横切关注点]
+    C --> D[基于模板编写文档<br/>必要时结合 GitNexus 补充历史意图<br/>API 清单 + Endpoint 业务流 + 证据]
+    D --> E{覆盖是否完整}
+    E -- 否 --> F[回查代码与测试<br/>补齐缺失证据和不确定项]
+    F --> D
+    E -- 是 --> G[用检查清单复核<br/>确认接口清单与明细一致]
+    G --> H[交付最终文档<br/>注明静态分析或运行验证范围]
 ```
 
 ### 1. 确定分析范围
@@ -89,19 +88,23 @@ flowchart TD
 - `@PatchMapping`
 - `@DeleteMapping`
 
-这一阶段需要把类级别和方法级别路由组合成最终路径，并补齐 HTTP 方法、鉴权注解、请求 DTO、响应 DTO、参数来源和异常映射。
+这一阶段需要把类级别和方法级别路由组合成最终路径，并补齐 HTTP 方法、鉴权注解、请求 DTO、响应 DTO、参数来源和异常映射。对于 WebFlux 服务，还需记录响应式返回类型（`Mono<T>`、`Flux<T>`），并标注流式媒体类型（如 `text/event-stream`）。
 
-### 3. 追踪业务链路
+### 3. 追踪业务链路并收集旁证（同步进行）
 
-从每个 controller 方法继续向下分析：
+追踪业务链路和收集旁证在同一遍里完成，不拆成两次扫描。
+
+**业务链路**：从每个 controller 方法继续向下分析：
 
 - 调用了哪个 service 方法
 - 经过了哪些业务分支和规则判断
 - 是否涉及事务、幂等、缓存、异步任务、事件发布
-- 是否落库、查库、调用 MQ、HTTP client、RPC client 或文件存储
+- 是否落库、查库、调用 MQ、HTTP client、RPC client 或文件存储（记录客户端类型：`RestTemplate`、`WebClient`、`@FeignClient`）
 - 是否受 feature flag、profile 或配置项影响
 
-每个接口在整理文字业务流之外，还应补一段 Mermaid `sequenceDiagram`，把请求从入口 Controller 经过 Service、Repository，到外部系统、副作用以及最终响应的主路径画出来。图中只能出现能从代码中追踪到的参与方；如果某一步是根据上下文推断出来的，需要在图附近或正文中明确标注“推断”。
+**同步收集的旁证**：追踪过程中同步读取相关测试、OpenAPI 注解、安全配置、`@ControllerAdvice`、过滤器、拦截器和横切关注点（鉴权、校验、事务、异常映射、配置开关）。
+
+每个接口在整理文字业务流之外，还应补一段 Mermaid `sequenceDiagram`，把请求从入口 Controller 经过 Service、Repository，到外部系统、副作用以及最终响应的主路径画出来。图中只能出现能从代码中追踪到的参与方；推断步骤需在图旁明确标注。
 
 如果可用，优先用 `jdtls-lsp` 做定义跳转、引用查找和调用链分析；语言服务不可用时，再退回到针对性代码搜索。
 
@@ -132,18 +135,7 @@ flowchart TD
 - 当历史记录与当前实现冲突时，应以当前代码为准。
 - 如果最终结论依赖历史推断，需要在文档中明确标注为推断，而不是事实。
 
-### 4. 收集交叉关注点
-
-除单个接口本身外，还需要统一梳理以下横切行为，并在接口章节中引用：
-
-- 认证与授权
-- 参数校验与序列化规则
-- 事务边界、并发与幂等
-- 全局异常处理与错误映射
-- `@Profile`、`@ConditionalOnProperty`、配置开关
-- 过滤器、拦截器、统一响应包装
-
-### 5. 用模板写文档
+### 4. 用模板写文档
 
 建议基于 [`references/doc-template.md`](./references/doc-template.md) 落盘，至少覆盖：
 
@@ -157,7 +149,7 @@ flowchart TD
 - 未确认逻辑
 - 验证方式与残留空白
 
-### 6. 用清单做收尾检查
+### 5. 用清单做收尾检查
 
 交付前，使用 [`references/springboot-analysis-checklist.md`](./references/springboot-analysis-checklist.md) 做覆盖复核，确保每个接口都同时具备：
 
@@ -201,6 +193,7 @@ flowchart TD
 - 把推测性业务意图写成确定事实。
 - 漏掉鉴权、事务边界、副作用或异常处理。
 - 只有文字描述，没有为接口补 Mermaid 时序图，或图与正文/代码链路不一致。
+- Mermaid 时序图的数量与已文档化接口的数量对不上。
 - API inventory 中的接口数量与明细章节对不上。
 
 ## 协作与验证建议
@@ -218,11 +211,10 @@ flowchart TD
 推荐执行顺序：
 
 1. 圈定模块和分析范围。
-2. 盘点控制器和接口入口。
-3. 逐个接口向下追踪业务链路。
-4. 汇总横切行为和配置影响。
-5. 用模板生成文档。
-6. 用检查清单复核覆盖率与证据完整性。
+2. 盘点控制器和接口入口（含 WebFlux 入口）。
+3. 逐个接口追踪业务链路，同步收集测试、安全配置和横切旁证。
+4. 用模板生成文档，横切关注点集中写一次，各接口章节引用。
+5. 用检查清单复核覆盖率与证据完整性。
 
 ## 参考文件
 

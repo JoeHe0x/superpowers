@@ -8,6 +8,7 @@ Use this checklist before finalizing the generated document.
 - Combine class-level and method-level mappings into the final path.
 - Capture HTTP method, media types, version prefix, and deprecated endpoints if present.
 - Check generated OpenAPI metadata, `@Operation`, `@ApiOperation`, or Swagger config as hints, not the final source of truth.
+- For WebFlux services, confirm reactive return types (`Mono<T>`, `Flux<T>`) and note streaming semantics where applicable (`text/event-stream`, `application/stream+json`).
 
 ## Request and Response Shape
 
@@ -23,7 +24,8 @@ Use this checklist before finalizing the generated document.
 - Trace branch conditions, permission checks, feature flags, and fallback logic.
 - Identify transaction boundaries such as `@Transactional` or explicit transaction helpers.
 - Record persistence changes, repository queries, optimistic locking, and soft-delete behavior.
-- Record outbound calls to MQ, cache, HTTP clients, RPC clients, file storage, or schedulers.
+- Record outbound calls to MQ, cache, HTTP clients, RPC clients, file storage, or schedulers. Identify the client type: `RestTemplate`, `WebClient`, `@FeignClient`, or custom wrapper.
+- For `@FeignClient` interfaces, check the declared fallback, error decoder, and timeout configuration.
 - Check for async side effects such as events, listeners, or `@Async` flows.
 
 ## Cross-Cutting Concerns
@@ -46,4 +48,6 @@ Use this checklist before finalizing the generated document.
 - Every endpoint in the inventory has a matching detail section.
 - Every detail section includes route, request, response, business flow, Mermaid sequence diagram, side effects, and evidence.
 - Cross-cutting behavior is documented once and referenced consistently.
+- Section 6 Data Models lists all DTOs, entities, and enums that materially affect API contracts or business rules.
+- Section 7 Open Questions is populated whenever any logic was uncertain or evidence was missing during analysis.
 - The final document states whether verification was static only or included runtime execution.
