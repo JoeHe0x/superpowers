@@ -194,7 +194,7 @@ For very small changes, the plan can be lightweight. The bar is not "formal appr
 ## Phase 6: Branch, Code, Verify
 
 After plan and tests are ready:
-- create a branch named `<jira-key>-<short-slug>` when a tracker key exists
+- create a branch named `<jira-key>` when a tracker key exists
 - otherwise use a descriptive branch name tied to the DD topic
 
 **REQUIRED SUB-SKILLS:**
